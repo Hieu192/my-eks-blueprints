@@ -15,7 +15,7 @@ export default class ClusterConstruct extends Construct {
       .account(account)
       .region(region)
       .clusterProvider(
-        new blueprints.GenericClusterProvider({
+        new blueprints.MngClusterProvider({
           version: KubernetesVersion.V1_32
         })
       )

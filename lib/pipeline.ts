@@ -17,7 +17,7 @@ export default class PipelineConstruct extends Construct {
       .account(account)
       .region(region)
       .clusterProvider(
-        new blueprints.GenericClusterProvider({
+        new blueprints.MngClusterProvider({
           version: KubernetesVersion.V1_32
         })
       )
