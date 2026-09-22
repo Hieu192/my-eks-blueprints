@@ -27,6 +27,22 @@ export default class PipelineConstruct extends Construct {
       )
       .teams(new TeamPlatform(account), new TeamApplication('burnham',account));
 
+    // HERE WE ADD THE ARGOCD APP OF APPS REPO INFORMATION
+    const repoUrl = 'https://github.com/aws-samples/eks-blueprints-workloads.git';
+
+    const bootstrapRepo: blueprints.ApplicationRepository = {
+      repoUrl,
+      targetRevision: 'workshop',
+    }
+
+    // HERE WE GENERATE THE ADDON CONFIGURATIONS
+    const devBootstrapArgo = new blueprints.ArgoCDAddOn({
+      bootstrapRepo: {
+        ...bootstrapRepo,
+        path: 'envs/dev'
+      },
+    });
+
     blueprints.CodePipelineStack.builder()
       .name("eks-blueprints-workshop-pipeline")
       .owner("Hieu192")
@@ -38,7 +54,7 @@ export default class PipelineConstruct extends Construct {
       .wave({
         id: "envs",
         stages: [
-          { id: "dev", stackBuilder: blueprint.clone('us-east-1') }
+          { id: "dev", stackBuilder: blueprint.clone('us-east-1').addOns(devBootstrapArgo) }
         ]
       })
       .build(scope, id+'-stack', props);
