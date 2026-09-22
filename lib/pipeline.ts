@@ -16,7 +16,7 @@ export default class PipelineConstruct extends Construct {
       .region(region)
       .clusterProvider(
         new blueprints.GenericClusterProvider({
-          version: KubernetesVersion.V1_28
+          version: KubernetesVersion.V1_29
         })
       )
       .addOns()
