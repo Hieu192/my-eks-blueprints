@@ -21,7 +21,10 @@ export default class PipelineConstruct extends Construct {
           version: KubernetesVersion.V1_32
         })
       )
-      .addOns(new blueprints.ClusterAutoScalerAddOn)
+      .addOns(
+        new blueprints.ClusterAutoScalerAddOn,
+        new blueprints.KubeviousAddOn(), 
+      )
       .teams(new TeamPlatform(account), new TeamApplication('burnham',account));
 
     blueprints.CodePipelineStack.builder()
